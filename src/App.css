@@ -1,38 +1,123 @@
+:root {
+  --container-lrg: 48rem;
+  --container-sml: 24rem;
+
+  --color-text: #353535;
+  --color-border: #808080;
+  --color-light: #c8d3db;
+  --color-light-focus: #bcc8d1;
+  --color-primary: #0a3d62;
+  --color-primary-focus: #09385a;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  margin: 1rem 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  margin: 1rem 0;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.subtitle {
+  font-weight: 500;
+  margin: 0.5rem auto;
+  max-width: 32rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.container {
+  max-width: var(--container-lrg);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.quote-container {
+  margin: 2rem auto;
+}
+
+.form {
+  max-width: var(--container-sml);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  box-shadow: 0 0 0 2px var(--color-primary);
+  padding: 2rem;
+}
+
+.form h2 {
+  margin: 0 0 1rem;
+}
+
+.full {
+  grid-column: 1 / 3;
+}
+
+
+.ui.input  {
+  width: 100%;
+}
+
+.ui.input input {
+  font-size: 1rem;
+  padding: 0.25rem;
+  line-height: 1;
+  width: 100%;
+  border: none;
+  box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.ui.input input:focus {
+  outline: 0;
+  border: 0;
+  box-shadow: 0 0 0 1px var(--color-text);
+}
+
+.field + .field {
+  margin: 1rem 0 0;
+}
+
+.field label {
+  display: inline-block;
+  font-size: 0.75rem;
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.button {
+  border: none;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+  background: var(--color-light);
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.button:hover,
+.button:focus {
+  background: var(--color-light-focus);
+  outline: 0;
+}
+
+.button.primary{
   color: white;
+  background: var(--color-primary);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button.primary:hover,
+.button.primary:focus{
+  background: var(--color-primary-focus);
 }
