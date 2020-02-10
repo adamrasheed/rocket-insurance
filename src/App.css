@@ -4,18 +4,34 @@
 
   --color-text: #353535;
   --color-border: #808080;
+  --color-extra-light: #eef2f5;
   --color-light: #c8d3db;
   --color-light-focus: #bcc8d1;
   --color-primary: #0a3d62;
   --color-primary-focus: #09385a;
 }
 
+body {
+  background: var(--color-extra-light);
+}
+
 .App {
   text-align: center;
 }
 
+.center {
+  text-align: center;
+}
+
 .header {
-  margin: 1rem 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 1rem;
+}
+
+.header.extended {
+  padding: 1rem 1rem 4rem;
+  margin-bottom: -4rem;
 }
 
 .title {
@@ -47,10 +63,24 @@
   max-width: var(--container-sml);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  background: white;
   grid-gap: 1rem;
-  box-shadow: 0 0 0 2px var(--color-primary);
+  box-shadow: 0 6px 2px -4px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 2rem;
+  z-index: 5;
+  position: relative;
+}
+
+.form::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, #eb2f06, #fa983a);
+  z-index: 10;
 }
 
 .form h2 {
@@ -58,12 +88,28 @@
 }
 
 .full {
-  grid-column: 1 / 3;
+  grid-column: 1 / 2;
+}
+
+.select {
+  display: block;
+  width: 100%;
+  height: 1.75rem;
 }
 
 
 .ui.input  {
   width: 100%;
+}
+
+@media screen and (min-width: 560px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .full {
+    grid-column: 1 /3;
+  }
 }
 
 .ui.input input {
@@ -81,9 +127,6 @@
   box-shadow: 0 0 0 1px var(--color-text);
 }
 
-.field + .field {
-  margin: 1rem 0 0;
-}
 
 .field label {
   display: inline-block;
@@ -106,6 +149,20 @@
   transition: all 0.15s ease-in-out;
 }
 
+a.button {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.button.block {
+  display: block;
+  width: fit-content;
+}
+
+.button.center {
+  margin: 0 auto;
+}
+
 .button:hover,
 .button:focus {
   background: var(--color-light-focus);
@@ -120,4 +177,16 @@
 .button.primary:hover,
 .button.primary:focus{
   background: var(--color-primary-focus);
+}
+
+.card {
+  text-align: center;
+  max-width: 24rem;
+  padding: 1rem;
+  background: white;
+  margin: 1rem auto;
+}
+
+.card .button {
+  margin: 1rem auto;
 }

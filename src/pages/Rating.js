@@ -6,7 +6,7 @@ import QuoteForm from '../components/QuoteForm';
 const Rating = () => {
   return (
     <div>
-      <Header />
+      <Header extended />
       <QuoteForm />
     </div>
   );
