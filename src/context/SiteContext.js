@@ -22,6 +22,8 @@ const SiteProvider = ({ children }) => {
     saveState('quote', quote)
   }, [quote])
 
+  useEffect(() => saveState('quoteErrors', quoteErrors), [quoteErrors])
+
   const submitQuote = async (payLoad) => {
     console.log('submitting load')
     setIsSubmitting(true)
@@ -35,7 +37,10 @@ const SiteProvider = ({ children }) => {
     })
     let data = await response.json()
     setIsSubmitting(false)
-    if (data.errors) setQuoteErrors(data.errors)
+    if (data.errors) {
+      console.log(data.errors)
+      setQuoteErrors(data.errors)
+    }
     if (data.quote) {
       setQuote(data.quote)
       setSuccess(true)

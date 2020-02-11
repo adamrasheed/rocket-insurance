@@ -7,9 +7,15 @@ import * as style from './style.module.css'
 const Card = ({
   title,
   titleSmall,
+  transparent,
   className,
   children
 }) => {
+
+  const cardClass = cn(
+    style.card,
+    transparent && style.transparent
+  )
   const titleClass = cn(
     style.title,
     titleSmall && style.small
@@ -21,7 +27,7 @@ const Card = ({
       <h2 className={titleClass}>{title}</h2>
     )
   return (
-    <div className={style.card}>
+    <div className={cardClass}>
       {title && Title}
       {children}
     </div>

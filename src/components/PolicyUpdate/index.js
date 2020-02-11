@@ -3,14 +3,10 @@ import Card from '../Card';
 import { moneyFormatter } from '../../helpers';
 import PolicyOption from './PolicyOption';
 
-// title: "Deductible"
-// description: "The amount of money you will pay in an insurance claim before the insurance coverage kicks in."
-// values: (3) [500, 1000, 2000]
-
 const PolicyUpdate = ({ options }) => {
-  return (
-    <Card title="Policy Update">
-      <div className="two">
+  return options && (
+    <Card title="Update Your Policy Options">
+      <form className="two">
         {Object.keys(options).map(key => {
           const option = options[key]
           return (
@@ -22,7 +18,7 @@ const PolicyUpdate = ({ options }) => {
             />
           )
         })}
-      </div>
+      </form>
     </Card>
   );
 }

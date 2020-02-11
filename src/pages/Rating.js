@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../components/Header/index';
-import RatingForm from '../components/RatingForm';
+import Header from '../components/Header';
+import RatingForm from '../components/RatingForm/index';
 
 
 const Rating = () => {

@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { Container } from 'semantic-ui-react';
-import { states } from '../constants'
-import { SiteContext } from '../context/SiteContext';
+import { states } from '../../constants'
+import { SiteContext } from '../../context/SiteContext';
+import InputGroup from '../InputGroup';
 
-import * as Spinner from '../assets/spinner.svg'
+import spinner from '../../assets/spinner.svg'
+
+import * as style from './style.module.css'
 
 const RatingForm = () => {
   const initialAddress = {
@@ -25,7 +27,8 @@ const RatingForm = () => {
     })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     const payload = {
       first_name: firstName,
       last_name: lastName,
@@ -35,49 +38,46 @@ const RatingForm = () => {
   }
 
   return isSubmitting ? (
-    <div className="spinner-wrapper">
-      <img src={Spinner} alt="Loading" className="spinner" />
+    <div className={style.spinner_wrapper}>
+      <img src={spinner} alt="Loading" className={style.spinner} />
     </div>
   ) : (
       <div className="container quote-container">
-        <form onSubmit={handleSubmit}>
-          <h2 className="center full">Get a Quote</h2 >
-          <input
+        <form className="form two" onSubmit={handleSubmit}>
+          <h2 className="form-title full">Get a Quote</h2 >
+          <InputGroup
             label="First Name"
-            type="text"
             onChange={(e) => { setFirstName(e.target.value) }}
             value={firstName}
           />
 
-          <input
+          <InputGroup
             label="Last Name"
-            type="text"
             onChange={(e) => { setLastName(e.target.value) }}
             value={lastName}
           />
-          <input
+          <InputGroup
             label="Street"
             type="text"
             className="full"
             onChange={e => handleAddressChange(e.target.value, 'line_1')}
             value={address.line}
           />
-          <input
+          <InputGroup
             label="Street 2"
             type="text"
             className="full"
             onChange={e => handleAddressChange(e.target.value, 'line_2')}
             value={address.line2} />
 
-          <input
+          <InputGroup
             label="City"
             type="text"
             onChange={e => handleAddressChange(e.target.value, 'city')}
             value={address.city}
             className="full" />
 
-          <div className="field">
-            <label htmlFor="region">Region</label>
+          <InputGroup label="Region">
             <select
               className="ui select"
               name="region"
@@ -91,9 +91,9 @@ const RatingForm = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </InputGroup>
 
-          <input
+          <InputGroup
             label="Postal"
             type="number"
             pattern="[0-9]{5}"
