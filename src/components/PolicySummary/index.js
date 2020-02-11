@@ -4,10 +4,13 @@ import { moneyFormatter } from '../../helpers'
 import InfoItem from '../InfoItem/index'
 import Card from '../Card'
 
+import * as style from './style.module.css'
+
 
 const PolicySummary = ({
   name,
   address,
+  premium,
   policy: {
     deductible,
     asteroid_collision,
@@ -18,13 +21,18 @@ const PolicySummary = ({
 
   return (
     <Card transparent>
-      <div className="two">
+      <div className="three">
         <InfoItem
           title="Name"
           info={`${name.first_name} ${name.last_name} `} />
         <InfoItem
           title="Address"
-          info={formattedAddress} />
+          info={formattedAddress}
+          className={style.address} />
+        <InfoItem
+          title="Premium"
+          info={moneyFormatter.format(premium)}
+        />
         <InfoItem
           title="Deductible"
           info={moneyFormatter.format(deductible)} />

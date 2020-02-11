@@ -11,6 +11,7 @@
   --color-primary: #0a3d62;
   --color-primary-focus: #09385a;
   --color-primary-alt: #1b557f;
+  --color-error: #eb2f06;
 
   --font-size-reg: 1rem;
   --font-size-sml: 0.875rem;
@@ -30,19 +31,6 @@ body {
 
 .center {
   text-align: center;
-}
-
-
-.title {
-  margin: 1rem auto;
-  text-align: center;
-  max-width: var(--container-med);
-}
-
-.subtitle {
-  font-weight: 500;
-  margin: 0.5rem auto;
-  max-width: 32rem;
 }
 
 .center {

@@ -1,8 +1,30 @@
+.group {
+  position: relative;
+}
+
 .label {
-  display: block;
+  display: flex;
   font-size: 0.75rem;
   margin: 0 0 0.25rem;
   font-weight: 600;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.label.error {
+  color: var(--color-error);
+}
+
+.error_display {
+  color: var(--color-error);
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  margin: 0;
+  margin-left: auto;
+  font-weight: var(--font-weight-med);
+  font-variant-caps: all-small-caps;
+  font-size: 0.5rem;
 }
 
 .input {
@@ -12,6 +34,10 @@
   width: 100%;
   border: none;
   box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.input.error {
+  box-shadow: 0 0 0 1px var(--color-error);
 }
 
 .input:focus {

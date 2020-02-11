@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { SiteContext } from '../context/SiteContext';
 import Header from '../components/Header'
-import Back from '../components/Back';
 import PolicySummary from '../components/PolicySummary/index';
 import PolicyUpdate from '../components/PolicyUpdate';
 
@@ -13,21 +12,18 @@ const Quote = () => {
   return (
     <div>
       <Header />
-      {quote ? (
-        <div className="page-content">
-          <h2 className="title">{greeting}</h2>
-          <PolicySummary
-            name={quote.policy_holder}
-            address={quote.rating_address}
-            policy={quote.variable_selections}
-          />
-          <PolicyUpdate
-            options={quote.variable_options}
-          />
-        </div>
-      ) : (
-          <Back />
-        )}
+      <div className="page-content">
+        <h2 className="center title">{greeting}</h2>
+        <PolicySummary
+          name={quote.policy_holder}
+          address={quote.rating_address}
+          premium={quote.premium}
+          policy={quote.variable_selections}
+        />
+        <PolicyUpdate
+          options={quote.variable_options}
+        />
+      </div>
     </div>
   );
 }

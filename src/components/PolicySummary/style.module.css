@@ -1,5 +1,9 @@
-.items {
-  display: grid;
-  grid-gap: var(--grid-gap);
-  grid-template-columns: 1fr 1fr;
+.address {
+  grid-column: 1 / 2;
+}
+
+@media screen and (min-width: 560px) {
+  .address {
+    grid-column: 2 / 4;
+  }
 }

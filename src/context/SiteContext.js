@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { saveState, loadState } from '../helpers';
 
 const siteStore = {
+  form: {},
   quote: {},
   isSubmitting: false,
   success: false,
@@ -14,18 +15,23 @@ const endPoint = `https://fed-challenge-api.sure.now.sh/api/v1/quotes`
 
 const SiteProvider = ({ children }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [quoteErrors, setQuoteErrors] = useState(null)
+  const [quoteErrors, setQuoteErrors] = useState(
+    loadState('quoteErrors') || {}
+  )
   const [success, setSuccess] = useState(false)
-  const [quote, setQuote] = useState(loadState('quote') || null)
+  const [quote, setQuote] = useState(
+    loadState('quote') || null
+  )
 
   useEffect(() => {
     saveState('quote', quote)
   }, [quote])
 
-  useEffect(() => saveState('quoteErrors', quoteErrors), [quoteErrors])
+  useEffect(() =>
+    saveState('quoteErrors', quoteErrors),
+    [quoteErrors])
 
   const submitQuote = async (payLoad) => {
-    console.log('submitting load')
     setIsSubmitting(true)
 
     let response = await fetch(endPoint, {
@@ -35,14 +41,16 @@ const SiteProvider = ({ children }) => {
       },
       body: JSON.stringify(payLoad)
     })
+
     let data = await response.json()
     setIsSubmitting(false)
+
     if (data.errors) {
-      console.log(data.errors)
       setQuoteErrors(data.errors)
     }
     if (data.quote) {
       setQuote(data.quote)
+      setQuoteErrors({})
       setSuccess(true)
     }
 
@@ -54,6 +62,7 @@ const SiteProvider = ({ children }) => {
       ...siteStore,
       submitQuote,
       quoteErrors,
+      setQuoteErrors,
       isSubmitting,
       quote,
       success,

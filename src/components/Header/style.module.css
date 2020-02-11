@@ -7,5 +7,24 @@
 
 .header.extended {
   padding: 1rem 1rem 4rem;
-  margin-bottom: -4rem;
+  margin-bottom: -3rem;
+}
+
+.title {
+  margin: 1rem auto;
+  text-align: center;
+  max-width: var(--container-med);
+}
+
+.title a {
+  color: white;
+  text-decoration: none;
+}
+
+.subtitle {
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0.5rem auto;
+  padding: 0 1rem;
+  max-width: var(--container-sml);
 }

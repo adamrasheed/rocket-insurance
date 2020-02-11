@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import * as style from './style.module.css'
 
-const InfoItem = ({ title, info, children }) => {
+const InfoItem = ({ title, info, className, children }) => {
   return (
-    <div className="info-item">
+    <div className={className}>
       <p className={style.title}>{title}</p>
       <p className={style.info}>
         {info || children}

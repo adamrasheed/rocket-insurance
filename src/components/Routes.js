@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
-  Route
+  Route,
 } from 'react-router-dom'
 
 import Rating from '../pages/Rating'
@@ -15,14 +15,23 @@ import { SiteContext } from '../context/SiteContext';
 import { PATHS } from '../constants';
 
 function Routes() {
-  const { success } = useContext(SiteContext)
+  const { success, quote } = useContext(SiteContext)
   return (
     <Router>
       <Switch>
         <Route path={PATHS.LANDING} exact>
-          {success ? <Redirect to={PATHS.QUOTE} /> : <Rating />}
+          {success
+            ? <Redirect to={PATHS.QUOTE} />
+            : <Rating />
+          }
         </Route>
-        <Route path={PATHS.QUOTE} component={Quote} />
+        <Route path={PATHS.QUOTE}>
+          {/* Protects against unwanted viewing of page */}
+          {quote
+            ? <Quote />
+            : <Redirect to={PATHS.LANDING} />
+          }
+        </Route>
       </Switch>
     </Router>
   );
