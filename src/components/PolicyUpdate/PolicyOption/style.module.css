@@ -1,0 +1,21 @@
+.policy {
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-weight: var(--font-weight-med);
+}
+
+.description {
+  font-size: var(--font-size-sml);
+  margin: 0 auto;
+  max-width: 16rem;
+}
+
+.select {
+  font-size: 1rem;
+  padding: 1rem;
+  margin: 1rem auto;
+}

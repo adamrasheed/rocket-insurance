@@ -1,13 +1,13 @@
 import React from 'react';
-import Header from '../components/Header';
-import QuoteForm from '../components/QuoteForm';
+import Header from '../components/Header/index';
+import RatingForm from '../components/RatingForm';
 
 
 const Rating = () => {
   return (
     <div>
       <Header extended />
-      <QuoteForm />
+      <RatingForm />
     </div>
   );
 }

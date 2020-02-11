@@ -1,0 +1,22 @@
+.card {
+  padding: 1rem;
+  background: white;
+  max-width: var(--container-sml);
+  margin: 2rem auto;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.08), 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.title {
+  margin: 0 auto 1rem;
+  text-align: center;
+  line-height: 1.25;
+}
+
+hr {
+  height: 2px;
+  border: none;
+  background: var(--color-light);
+  width: 12rem;
+  margin: 1rem auto calc(1rem + 2px);
+  opacity: 0.65;
+}

@@ -1,0 +1,12 @@
+.title {
+  margin: 0 0 0.5rem;
+  font-size: var(--font-size-red);
+  line-height: 1;
+  font-weight: var(--font-weight-med);
+  font-variant-caps: all-small-caps;
+}
+
+.info {
+  margin: 0;
+  line-height: 1.5;
+}

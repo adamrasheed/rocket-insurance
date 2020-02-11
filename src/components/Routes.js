@@ -9,7 +9,8 @@ import {
 import Rating from '../pages/Rating'
 import Quote from '../pages/Quote'
 
-import '../App.css';
+import '../main.css';
+
 import { SiteContext } from '../context/SiteContext';
 import { PATHS } from '../constants';
 

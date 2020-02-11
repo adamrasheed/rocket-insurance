@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { saveState, loadState } from '../helpers';
 
 const siteStore = {
   quote: {},
@@ -15,13 +16,14 @@ const SiteProvider = ({ children }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [quoteErrors, setQuoteErrors] = useState(null)
   const [success, setSuccess] = useState(false)
-  const [quote, setQuote] = useState(null)
+  const [quote, setQuote] = useState(loadState('quote') || null)
 
   useEffect(() => {
-    window.localStorage.setItem('quote', quote)
+    saveState('quote', quote)
   }, [quote])
 
   const submitQuote = async (payLoad) => {
+    console.log('submitting load')
     setIsSubmitting(true)
 
     let response = await fetch(endPoint, {
