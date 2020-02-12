@@ -9,37 +9,39 @@ import spinner from '../../assets/spinner.svg'
 import * as style from './style.module.css'
 
 const RatingForm = () => {
-  const initialAddress = {
-    line_1: '',
-    line_2: '',
-    city: '',
-    region: '',
-    postal: '',
-  }
-  const [first_name, setFirstName] = useState('')
-  const [last_name, setLastName] = useState('')
-  const [address, setAddress] = useState(initialAddress)
+
   const {
     isSubmitting,
     submitQuote,
-    quoteErrors,
+    // quoteErrors,
+    formData,
+    setFormData,
   } = useContext(SiteContext)
 
-  const handleAddressChange = (value, location) => {
-    setAddress({
-      ...address,
-      [location]: value
-    })
+
+  const handleValueChange = (value, location) => {
+    console.log(location, value)
+    if (formData[location]) {
+      setFormData({
+        ...formData,
+        [location]: value
+      })
+    } else if (formData.address[location]) {
+      console.log(value)
+      setFormData({
+        ...formData,
+        address: {
+          ...formData.address,
+          [location]: value
+        }
+      })
+    }
+
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const payload = {
-      first_name,
-      last_name,
-      address,
-    }
-    submitQuote(payload)
+    submitQuote()
   }
 
   const buttonClass = cn(
@@ -49,13 +51,13 @@ const RatingForm = () => {
     style.button
   )
 
-  const StateOptions = (
+  const renderRegionOptions = (
     <select
       className="select"
       name={ADDRESS.REGION}
       id={ADDRESS.REGION}
       onChange={e =>
-        handleAddressChange(
+        handleValueChange(
           e.target.value,
           ADDRESS.REGION
         )
@@ -74,56 +76,56 @@ const RatingForm = () => {
     {
       label: 'First Name',
       name: NAME.FIRST,
-      error: '',
+      error: false,
       required: true,
-      onChange: (e) => setFirstName(e.target.value),
-      value: first_name
+      onChange: (e) => handleValueChange(e.target.value, NAME.FIRST),
+      value: formData.first_name
     },
     {
       label: 'Last Name',
       name: NAME.LAST,
-      error: '',
-      onChange: (e) => setLastName(e.target.value),
-      value: last_name,
+      error: false,
+      onChange: (e) => handleValueChange(e.target.value, NAME.LAST),
+      value: formData.last_name,
     },
     {
       label: 'Street',
-      name: `address-${ADDRESS.LINE_1}`,
+      name: ADDRESS.LINE_1,
       className: 'full',
-      error: '',
-      onChange: (e) => handleAddressChange(e.target.value, ADDRESS.LINE_1),
-      value: address.line_1,
+      error: false,
+      onChange: (e) => handleValueChange(e.target.value, ADDRESS.LINE_1),
+      value: formData.address.line_1,
     },
     {
       label: 'Street 2',
-      name: `address-${ADDRESS.LINE_2}`,
+      name: ADDRESS.LINE_2,
       className: 'full',
-      error: '',
-      onChange: (e) => handleAddressChange(e.target.value, ADDRESS.LINE_2),
-      value: address.line_2,
+      error: false,
+      onChange: (e) => handleValueChange(e.target.value, ADDRESS.LINE_2),
+      value: formData.address.line_2,
     },
     {
       label: 'City',
-      name: `address-${ADDRESS.CITY}`,
-      error: '',
-      onChange: (e) => handleAddressChange(e.target.value, ADDRESS.CITY),
-      value: address.city,
+      name: ADDRESS.CITY,
+      error: false,
+      onChange: (e) => handleValueChange(e.target.value, ADDRESS.CITY),
+      value: formData.address.city,
     },
     {
       label: 'State',
-      name: `address-${ADDRESS.REGION}`,
-      error: '',
-      children: StateOptions,
-      onChange: (e) => handleAddressChange(e.target.value, ADDRESS.REGION),
-      value: address.region,
+      name: ADDRESS.REGION,
+      error: false,
+      children: renderRegionOptions,
+      onChange: (e) => handleValueChange(e.target.value, ADDRESS.REGION),
+      value: formData.address.region,
     },
     {
       label: 'ZIP',
-      name: `address-${ADDRESS.POSTAL}`,
+      name: ADDRESS.POSTAL,
       pattern: '[0-9]{5}',
-      error: '',
-      onChange: (e) => handleAddressChange(e.target.value, ADDRESS.POSTAL),
-      value: address.postal,
+      error: false,
+      onChange: (e) => handleValueChange(e.target.value, ADDRESS.POSTAL),
+      value: formData.address.postal,
     },
   ]
 
@@ -147,21 +149,13 @@ const RatingForm = () => {
             onChange,
             children
           }) => {
-            const errorState = name.includes('address-')
-              ? (
-                quoteErrors &&
-                quoteErrors.address &&
-                quoteErrors.address[name.split('-').pop()]
-              ) : (
-                quoteErrors[name]
-              )
 
             return (
               <InputGroup
                 key={name}
                 name={name}
                 required={required}
-                error={errorState}
+
                 className={className}
                 label={label}
                 onChange={onChange}

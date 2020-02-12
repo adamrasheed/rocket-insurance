@@ -1,12 +1,36 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { saveState, loadState } from '../helpers';
 
+const initialFormValues = {
+  first_name: '',
+  last_name: '',
+  address: {
+    line_1: '',
+    line_2: '',
+    city: '',
+    region: '',
+    postal: '',
+  }
+}
+
 const siteStore = {
-  form: {},
+  form: {
+    ...initialFormValues,
+  },
   quote: {},
   isSubmitting: false,
   success: false,
-  quoteErrors: null,
+  quoteErrors: {
+    first_name: false,
+    last_name: false,
+    address: {
+      line_1: false,
+      line_2: false,
+      city: false,
+      region: false,
+      postal: false,
+    }
+  },
 }
 
 export const SiteContext = createContext(siteStore)
@@ -14,46 +38,54 @@ export const SiteContext = createContext(siteStore)
 const endPoint = `https://fed-challenge-api.sure.now.sh/api/v1/quotes`
 
 const SiteProvider = ({ children }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formData, setFormData] = useState(initialFormValues)
+  const [isSubmitting, setIsSubmitting] = useState(loadState('quoteError') || false)
   const [quoteErrors, setQuoteErrors] = useState(
-    loadState('quoteErrors') || {}
+    siteStore.quoteErrors
   )
   const [success, setSuccess] = useState(false)
   const [quote, setQuote] = useState(
-    loadState('quote') || null
+    loadState('quote') || siteStore.quoteErrors
   )
 
   useEffect(() => {
+    console.log('formdata', formData)
     saveState('quote', quote)
-  }, [quote])
+    console.log(quote)
+  }, [formData, quote])
 
-  useEffect(() =>
-    saveState('quoteErrors', quoteErrors),
-    [quoteErrors])
-
-  const submitQuote = async (payLoad) => {
+  const submitQuote = async () => {
     setIsSubmitting(true)
 
-    let response = await fetch(endPoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payLoad)
-    })
+    try {
+      let response = await fetch(endPoint, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
 
-    let data = await response.json()
-    setIsSubmitting(false)
+      const data = await response.json()
+      console.log(data)
+      if (data.quote) {
+        setQuote(data.quote)
+        setQuoteErrors(siteStore.quoteErrors)
+        setSuccess(true)
+      }
+      if (data.errors) {
+        setQuote(siteStore.quote)
+        setQuoteErrors({
+          ...quoteErrors,
+          ...data.errors
+        })
+      }
+      setIsSubmitting(false)
 
-    if (data.errors) {
-      setQuoteErrors(data.errors)
+    } catch (error) {
+      console.log(error)
     }
-    if (data.quote) {
-      setQuote(data.quote)
-      setQuoteErrors({})
-      setSuccess(true)
-    }
-
     return
   }
 
@@ -61,9 +93,11 @@ const SiteProvider = ({ children }) => {
     <SiteContext.Provider value={{
       ...siteStore,
       submitQuote,
-      quoteErrors,
-      setQuoteErrors,
+      // quoteErrors,
+      // setQuoteErrors,
       isSubmitting,
+      formData,
+      setFormData,
       quote,
       success,
     }}>
