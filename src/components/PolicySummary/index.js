@@ -11,20 +11,17 @@ const PolicySummary = ({
   name,
   address,
   premium,
-  policy: {
-    deductible,
-    asteroid_collision,
-  }
+  policy
 }) => {
   const formattedAddress =
-    `${address.line_1} ${address.city} ${address.region.toUpperCase()}, ${address.postal}`
+    `${address ?.line_1} ${address ?.city} ${address ?.region.toUpperCase()}, ${address ?.postal}`
 
   return (
     <Card transparent>
       <div className="three">
         <InfoItem
           title="Name"
-          info={`${name.first_name} ${name.last_name} `} />
+          info={`${name ?.first_name} ${name ?.last_name} `} />
         <InfoItem
           title="Address"
           info={formattedAddress}
@@ -35,11 +32,11 @@ const PolicySummary = ({
         />
         <InfoItem
           title="Deductible"
-          info={moneyFormatter.format(deductible)} />
+          info={moneyFormatter.format(policy ?.deductible)} />
         <InfoItem
           title="Asteroid Collision"
           info={moneyFormatter.format(
-            asteroid_collision
+            policy ?.asteroid_collision
           )} />
       </div>
     </Card>

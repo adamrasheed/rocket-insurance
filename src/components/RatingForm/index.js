@@ -13,21 +13,20 @@ const RatingForm = () => {
   const {
     isSubmitting,
     submitQuote,
-    // quoteErrors,
     formData,
     setFormData,
   } = useContext(SiteContext)
 
 
   const handleValueChange = (value, location) => {
-    console.log(location, value)
-    if (formData[location]) {
+
+    if (formData[location] !== undefined) {
       setFormData({
         ...formData,
         [location]: value
       })
-    } else if (formData.address[location]) {
-      console.log(value)
+    }
+    if (formData.address[location] !== undefined) {
       setFormData({
         ...formData,
         address: {
@@ -51,7 +50,7 @@ const RatingForm = () => {
     style.button
   )
 
-  const renderRegionOptions = (
+  const renderRegionOptions = () => (
     <select
       className="select"
       name={ADDRESS.REGION}
@@ -78,14 +77,12 @@ const RatingForm = () => {
       name: NAME.FIRST,
       error: false,
       required: true,
-      onChange: (e) => handleValueChange(e.target.value, NAME.FIRST),
       value: formData.first_name
     },
     {
       label: 'Last Name',
       name: NAME.LAST,
       error: false,
-      onChange: (e) => handleValueChange(e.target.value, NAME.LAST),
       value: formData.last_name,
     },
     {
@@ -93,7 +90,6 @@ const RatingForm = () => {
       name: ADDRESS.LINE_1,
       className: 'full',
       error: false,
-      onChange: (e) => handleValueChange(e.target.value, ADDRESS.LINE_1),
       value: formData.address.line_1,
     },
     {
@@ -101,22 +97,19 @@ const RatingForm = () => {
       name: ADDRESS.LINE_2,
       className: 'full',
       error: false,
-      onChange: (e) => handleValueChange(e.target.value, ADDRESS.LINE_2),
       value: formData.address.line_2,
     },
     {
       label: 'City',
       name: ADDRESS.CITY,
       error: false,
-      onChange: (e) => handleValueChange(e.target.value, ADDRESS.CITY),
       value: formData.address.city,
     },
     {
       label: 'State',
       name: ADDRESS.REGION,
       error: false,
-      children: renderRegionOptions,
-      onChange: (e) => handleValueChange(e.target.value, ADDRESS.REGION),
+      children: renderRegionOptions(),
       value: formData.address.region,
     },
     {
@@ -124,7 +117,6 @@ const RatingForm = () => {
       name: ADDRESS.POSTAL,
       pattern: '[0-9]{5}',
       error: false,
-      onChange: (e) => handleValueChange(e.target.value, ADDRESS.POSTAL),
       value: formData.address.postal,
     },
   ]
@@ -158,7 +150,7 @@ const RatingForm = () => {
 
                 className={className}
                 label={label}
-                onChange={onChange}
+                onChange={e => handleValueChange(e.target.value, name)}
               >
                 {children}
               </InputGroup>

@@ -14,7 +14,7 @@ const initialFormValues = {
 }
 
 const siteStore = {
-  form: {
+  formData: {
     ...initialFormValues,
   },
   quote: {},
@@ -38,20 +38,18 @@ export const SiteContext = createContext(siteStore)
 const endPoint = `https://fed-challenge-api.sure.now.sh/api/v1/quotes`
 
 const SiteProvider = ({ children }) => {
-  const [formData, setFormData] = useState(initialFormValues)
+  const [formData, setFormData] = useState(siteStore.formData)
   const [isSubmitting, setIsSubmitting] = useState(loadState('quoteError') || false)
   const [quoteErrors, setQuoteErrors] = useState(
     siteStore.quoteErrors
   )
   const [success, setSuccess] = useState(false)
   const [quote, setQuote] = useState(
-    loadState('quote') || siteStore.quoteErrors
+    loadState('quote') || null
   )
 
   useEffect(() => {
-    console.log('formdata', formData)
     saveState('quote', quote)
-    console.log(quote)
   }, [formData, quote])
 
   const submitQuote = async () => {
@@ -75,7 +73,7 @@ const SiteProvider = ({ children }) => {
         setSuccess(true)
       }
       if (data.errors) {
-        setQuote(siteStore.quote)
+        setQuote({})
         setQuoteErrors({
           ...quoteErrors,
           ...data.errors

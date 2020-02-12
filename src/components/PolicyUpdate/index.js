@@ -3,10 +3,10 @@ import Card from '../Card';
 import PolicyOption from './PolicyOption';
 
 const PolicyUpdate = ({ options }) => {
-  return options && (
+  return (
     <Card title="Update Your Policy Options">
       <form className="two">
-        {Object.keys(options).map(key => {
+        {options && Object.keys(options).map(key => {
           const option = options[key]
           return (
             <PolicyOption
