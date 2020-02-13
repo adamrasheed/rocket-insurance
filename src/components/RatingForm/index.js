@@ -1,7 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import cn from 'classnames'
-import { STATES, NAME, ADDRESS } from '../../constants'
+import {
+  STATES,
+  NAME,
+  ADDRESS,
+  API_ENDPOINT
+} from '../../constants'
 import { SiteContext } from '../../context/SiteContext';
+import {
+  updateForm,
+  setSuccess,
+  isSubmitting as submitting
+} from '../../actions';
 import InputGroup from '../InputGroup';
 
 import spinner from '../../assets/spinner.svg'
@@ -11,36 +21,46 @@ import * as style from './style.module.css'
 const RatingForm = () => {
 
   const {
-    isSubmitting,
-    submitQuote,
-    formData,
-    setFormData,
+    state,
+    dispatch
   } = useContext(SiteContext)
 
+  const { form, isSubmitting } = state
 
-  const handleValueChange = (value, location) => {
+  useEffect(() => {
+    console.log('form', form)
+  }, [form])
 
-    if (formData[location] !== undefined) {
-      setFormData({
-        ...formData,
-        [location]: value
-      })
-    }
-    if (formData.address[location] !== undefined) {
-      setFormData({
-        ...formData,
-        address: {
-          ...formData.address,
-          [location]: value
-        }
-      })
-    }
-
-  }
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    submitQuote()
+    dispatch(submitting(true))
+
+    try {
+      let response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      })
+
+      const data = await response.json()
+      console.log(data)
+      if (data.quote) {
+        dispatch()
+        dispatch(setSuccess(true))
+      }
+      if (data.errors) {
+        // setQuote({})
+        console.log(data.error)
+      }
+      dispatch(submitting(false))
+
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
   }
 
   const buttonClass = cn(
@@ -50,16 +70,18 @@ const RatingForm = () => {
     style.button
   )
 
+
+
   const renderRegionOptions = () => (
     <select
       className="select"
       name={ADDRESS.REGION}
       id={ADDRESS.REGION}
       onChange={e =>
-        handleValueChange(
+        dispatch(updateForm(
           e.target.value,
           ADDRESS.REGION
-        )
+        ))
       }>
       {STATES.map(state => (
         <option
@@ -77,49 +99,85 @@ const RatingForm = () => {
       name: NAME.FIRST,
       error: false,
       required: true,
-      value: formData.first_name
+      value: form ?.first_name
     },
     {
       label: 'Last Name',
       name: NAME.LAST,
       error: false,
-      value: formData.last_name,
+      value: form ?.last_name,
     },
     {
       label: 'Street',
       name: ADDRESS.LINE_1,
       className: 'full',
       error: false,
-      value: formData.address.line_1,
+      value: form ?.address.line_1,
     },
     {
       label: 'Street 2',
       name: ADDRESS.LINE_2,
       className: 'full',
       error: false,
-      value: formData.address.line_2,
+      value: form ?.address.line_2,
     },
     {
       label: 'City',
       name: ADDRESS.CITY,
       error: false,
-      value: formData.address.city,
+      value: form ?.address.city,
     },
     {
       label: 'State',
       name: ADDRESS.REGION,
       error: false,
       children: renderRegionOptions(),
-      value: formData.address.region,
+      value: form ?.address.region,
     },
     {
       label: 'ZIP',
       name: ADDRESS.POSTAL,
       pattern: '[0-9]{5}',
       error: false,
-      value: formData.address.postal,
+      value: form ?.address.postal,
     },
   ]
+
+  function renderInputs() {
+    return inputs.map(({
+      label,
+      name,
+      required,
+      className,
+      onChange,
+      pattern,
+      children
+    }) => {
+
+      function getValue() {
+        if (form && form[name] !== undefined) {
+          return form[name]
+        } else if (form && form.address[name] !== undefined) {
+          return form.address[name]
+        }
+      }
+
+      return (
+        <InputGroup
+          key={name}
+          name={name}
+          required={required}
+          pattern={pattern}
+          className={className}
+          label={label}
+          onChange={e => dispatch(updateForm(e.target.value, name))}
+          value={getValue()}
+        >
+          {children}
+        </InputGroup>
+      )
+    })
+  }
 
   return isSubmitting ? (
     <div className={style.spinner_wrapper}>
@@ -133,30 +191,7 @@ const RatingForm = () => {
       <div className="container quote-container">
         <form className="form two" onSubmit={handleSubmit}>
           <h2 className="form-title full">Get a Quote</h2 >
-          {inputs.map(({
-            label,
-            name,
-            required,
-            className,
-            onChange,
-            children
-          }) => {
-
-            return (
-              <InputGroup
-                key={name}
-                name={name}
-                required={required}
-
-                className={className}
-                label={label}
-                onChange={e => handleValueChange(e.target.value, name)}
-              >
-                {children}
-              </InputGroup>
-            )
-          })}
-
+          {renderInputs()}
           <button
             className={buttonClass}
             type="submit">Get My Quote</button>

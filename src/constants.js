@@ -24,3 +24,5 @@ export const PATHS = {
   LANDING: '/',
   QUOTE: '/quote'
 }
+
+export const API_ENDPOINT = 'https://fed-challenge-api.sure.now.sh/api/v1/quotes'

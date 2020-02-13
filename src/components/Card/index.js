@@ -6,7 +6,6 @@ import * as style from './style.module.css'
 
 const Card = ({
   title,
-  titleSmall,
   transparent,
   className,
   children
@@ -16,19 +15,15 @@ const Card = ({
     style.card,
     transparent && style.transparent
   )
-  const titleClass = cn(
-    style.title,
-    titleSmall && style.small
-  )
 
-  const Title = titleSmall ? (
-    <h3 className={titleClass}>{title}</h3>
-  ) : (
-      <h2 className={titleClass}>{title}</h2>
-    )
+  function renderTitle() {
+    return title ? (
+      <h2 className={style.title}>{title}</h2>
+    ) : null
+  }
   return (
     <div className={cardClass}>
-      {title && Title}
+      {renderTitle()}
       {children}
     </div>
   );
@@ -36,7 +31,6 @@ const Card = ({
 
 Card.propTypes = {
   title: PropTypes.string,
-  titleSmall: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
