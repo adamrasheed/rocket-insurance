@@ -5,7 +5,7 @@ import PolicySummary from '../components/PolicySummary/index';
 import PolicyUpdate from '../components/PolicyUpdate';
 
 const Quote = () => {
-  const { quote } = useContext(SiteContext)
+  const { state: { quote } } = useContext(SiteContext)
   const greeting = `${quote ?.policy_holder ?.first_name}, here's your policy information`
 
   return (

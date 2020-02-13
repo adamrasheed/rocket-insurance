@@ -7,7 +7,7 @@ import React, {
 import { saveState, loadState } from '../helpers';
 import { siteReducer } from '../reducer';
 
-export const siteStore = {
+export const initialStore = {
   form: {
     first_name: '',
     last_name: '',
@@ -35,17 +35,16 @@ export const siteStore = {
   },
 }
 
-export const SiteContext = createContext(siteStore)
+export const SiteContext = createContext(initialStore)
 
 const SiteProvider = ({ children }) => {
   const [state, dispatch] = useReducer(
     siteReducer,
-    loadState('state') || siteStore,
+    loadState('state') || initialStore,
   )
 
   useEffect(() => {
     saveState('state', state)
-    console.log(state)
   }, [state])
 
   const contextValue =

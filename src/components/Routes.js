@@ -15,7 +15,12 @@ import { SiteContext } from '../context/SiteContext';
 import { PATHS } from '../constants';
 
 function Routes() {
-  const { success, quote } = useContext(SiteContext)
+  const {
+    state: {
+      success,
+      quote
+    }
+  } = useContext(SiteContext)
   return (
     <Router>
       <Switch>

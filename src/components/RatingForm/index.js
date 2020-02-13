@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames'
 import {
   STATES,
@@ -10,7 +10,8 @@ import { SiteContext } from '../../context/SiteContext';
 import {
   updateForm,
   setSuccess,
-  isSubmitting as submitting
+  isSubmitting as submitting,
+  updateQuote
 } from '../../actions';
 import InputGroup from '../InputGroup';
 
@@ -26,10 +27,6 @@ const RatingForm = () => {
   } = useContext(SiteContext)
 
   const { form, isSubmitting } = state
-
-  useEffect(() => {
-    console.log('form', form)
-  }, [form])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -48,7 +45,7 @@ const RatingForm = () => {
       const data = await response.json()
       console.log(data)
       if (data.quote) {
-        dispatch()
+        dispatch(updateQuote(data.quote))
         dispatch(setSuccess(true))
       }
       if (data.errors) {
@@ -59,7 +56,6 @@ const RatingForm = () => {
 
     } catch (error) {
       console.log(error)
-      throw new Error(error)
     }
   }
 

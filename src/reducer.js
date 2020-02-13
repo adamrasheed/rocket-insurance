@@ -1,10 +1,10 @@
 export const FORM_UPDATE = 'FORM_UPDATE'
-export const FORM_SUBMIT = 'FORM_SUBMIT'
 export const ERROR_UPDATE = 'ERROR_UPDATE'
+export const QUOTE_UPDATE = 'QUOTE_UPDATE'
 export const IS_SUBMITTING = 'IS_SUBMITTING'
 export const SUCCESS = 'SUCCESS'
 
-export const siteReducer = async (state, action) => {
+export const siteReducer = (state, action) => {
   switch (action.type) {
     case FORM_UPDATE:
       let newForm = { ...state.form }
@@ -15,8 +15,6 @@ export const siteReducer = async (state, action) => {
       if (state.form ?.address[action.key] !== undefined) {
         newForm.address[action.key] = action.value
       }
-
-      console.log(newForm)
 
       return {
         ...state,
@@ -29,17 +27,16 @@ export const siteReducer = async (state, action) => {
         isSubmitting: action.isSubmitting
       }
 
+    case QUOTE_UPDATE:
+      return {
+        ...state,
+        quote: action.quote
+      }
+
     case SUCCESS:
       return {
         ...state,
         success: action.success
-      }
-
-
-    case FORM_SUBMIT:
-      return {
-        ...state,
-        quote: action.quote,
       }
 
     default:
