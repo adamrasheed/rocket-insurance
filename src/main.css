@@ -43,35 +43,6 @@ body {
   padding: 0 1rem;
 }
 
-.form {
-  max-width: var(--container-sml);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  background: white;
-  grid-gap: 1rem;
-  box-shadow: 0 6px 2px -4px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
-  z-index: 5;
-  position: relative;
-}
-
-.form-title {
-  margin: 0;
-  text-align: center;
-}
-
-.form::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 6px;
-  width: 100%;
-  background: linear-gradient(90deg, #eb2f06, #fa983a);
-  z-index: 10;
-}
-
 .full {
   grid-column: 1 / 2;
 }
@@ -93,9 +64,6 @@ body {
 }
 
 @media screen and (min-width: 560px) {
-  .form {
-    grid-template-columns: 1fr 1fr;
-  }
 
   .full {
     grid-column: 1 /3;
@@ -152,16 +120,4 @@ a.button {
 .button.primary:hover,
 .button.primary:focus{
   background: var(--color-primary-focus);
-}
-
-.card {
-  text-align: center;
-  max-width: var(--container-sml);
-  padding: 1rem;
-  background: white;
-  margin: 1rem auto;
-}
-
-.card .button {
-  margin: 1rem auto;
 }

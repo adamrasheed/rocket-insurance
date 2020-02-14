@@ -6,33 +6,17 @@ import React, {
 } from 'react';
 import { saveState, loadState } from '../helpers';
 import { siteReducer } from '../reducer';
+import {
+  INITIAL_FORM_ERRORS,
+  INITIAL_FORM_VALUES
+} from '../constants';
 
 export const initialStore = {
-  form: {
-    first_name: '',
-    last_name: '',
-    address: {
-      line_1: '',
-      line_2: '',
-      city: '',
-      region: '',
-      postal: '',
-    }
-  },
+  form: INITIAL_FORM_VALUES,
   quote: {},
   isSubmitting: false,
   success: false,
-  quoteErrors: {
-    first_name: false,
-    last_name: false,
-    address: {
-      line_1: false,
-      line_2: false,
-      city: false,
-      region: false,
-      postal: false,
-    }
-  },
+  errors: INITIAL_FORM_ERRORS,
 }
 
 export const SiteContext = createContext(initialStore)

@@ -32,7 +32,7 @@ function Routes() {
         </Route>
         <Route path={PATHS.QUOTE}>
           {/* Protects against unwanted viewing of page */}
-          {quote
+          {(quote && success)
             ? <Quote />
             : <Redirect to={PATHS.LANDING} />
           }

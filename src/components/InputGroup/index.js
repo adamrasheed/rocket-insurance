@@ -59,7 +59,10 @@ InputGroup.propTypes = {
   name: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  error: PropTypes.string,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
   value: PropTypes.string,
 }
 

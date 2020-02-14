@@ -1,17 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import cn from 'classnames'
 import {
   STATES,
   NAME,
   ADDRESS,
-  API_ENDPOINT
+  API_ENDPOINT,
+  INITIAL_FORM_VALUES
 } from '../../constants'
 import { SiteContext } from '../../context/SiteContext';
 import {
   updateForm,
   setSuccess,
   isSubmitting as submitting,
-  updateQuote
+  updateQuote,
+  submitErrors,
+  clearSingleError,
+  clearAllErrors
 } from '../../actions';
 import InputGroup from '../InputGroup';
 
@@ -26,11 +30,26 @@ const RatingForm = () => {
     dispatch
   } = useContext(SiteContext)
 
-  const { form, isSubmitting } = state
+  const { form, isSubmitting, errors } = state
+
+  // populate default state/region
+  useEffect(() => {
+    if (state.form.address.region === '') {
+
+      const form = {
+        ...INITIAL_FORM_VALUES,
+      }
+      form.address.region = STATES[0]
+      dispatch(updateForm(STATES[0], ADDRESS.REGION))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     dispatch(submitting(true))
+
+
 
     try {
       let response = await fetch(API_ENDPOINT, {
@@ -41,16 +60,16 @@ const RatingForm = () => {
         },
         body: JSON.stringify(form)
       })
-
       const data = await response.json()
-      console.log(data)
       if (data.quote) {
         dispatch(updateQuote(data.quote))
+        dispatch(clearAllErrors())
         dispatch(setSuccess(true))
       }
       if (data.errors) {
         // setQuote({})
-        console.log(data.error)
+        console.log(data.errors)
+        dispatch(submitErrors(data.errors))
       }
       dispatch(submitting(false))
 
@@ -65,8 +84,6 @@ const RatingForm = () => {
     'full',
     style.button
   )
-
-
 
   const renderRegionOptions = () => (
     <select
@@ -151,10 +168,18 @@ const RatingForm = () => {
     }) => {
 
       function getValue() {
-        if (form && form[name] !== undefined) {
+        if (form[name] !== undefined) {
           return form[name]
-        } else if (form && form.address[name] !== undefined) {
+        } else if (form.address[name] !== undefined) {
           return form.address[name]
+        }
+      }
+
+      function getError() {
+        if (errors[name] !== undefined) {
+          return errors[name]
+        } else if (errors.address[name] !== undefined) {
+          return errors.address[name]
         }
       }
 
@@ -166,7 +191,11 @@ const RatingForm = () => {
           pattern={pattern}
           className={className}
           label={label}
-          onChange={e => dispatch(updateForm(e.target.value, name))}
+          error={getError()}
+          onChange={e => {
+            dispatch(clearSingleError(name))
+            dispatch(updateForm(e.target.value, name))
+          }}
           value={getValue()}
         >
           {children}
@@ -185,8 +214,8 @@ const RatingForm = () => {
     </div>
   ) : (
       <div className="container quote-container">
-        <form className="form two" onSubmit={handleSubmit}>
-          <h2 className="form-title full">Get a Quote</h2 >
+        <form className={cn(style.form, 'two')} onSubmit={handleSubmit}>
+          <h2 className={cn(style.form_title, 'full')}>Get a Quote</h2 >
           {renderInputs()}
           <button
             className={buttonClass}
