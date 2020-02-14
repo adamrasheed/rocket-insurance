@@ -49,11 +49,10 @@ export const siteReducer = (state, action) => {
     case ERRORS_UPDATE:
       let updatedErrors = { ...state.errors }
 
-      if (state.errors[action.key] !== undefined) {
-        console.log(updatedErrors)
+      if (state.errors[action.key]) {
         updatedErrors[action.key] = false
       }
-      if (state.errors.address[action.key] !== undefined) {
+      if (state.errors.address[action.key]) {
         updatedErrors.address[action.key] = false
       }
 
