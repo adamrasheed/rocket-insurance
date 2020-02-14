@@ -7,7 +7,7 @@ import {
   API_ENDPOINT,
   INITIAL_FORM_VALUES
 } from '../../constants'
-import { SiteContext } from '../../context/SiteContext';
+import { SiteContext } from '../../store/SiteContext';
 import {
   updateForm,
   setSuccess,
@@ -16,7 +16,7 @@ import {
   submitErrors,
   clearSingleError,
   clearAllErrors
-} from '../../actions';
+} from '../../store/actions';
 import InputGroup from '../InputGroup';
 
 import spinner from '../../assets/spinner.svg'
@@ -49,8 +49,6 @@ const RatingForm = () => {
     e.preventDefault()
     dispatch(submitting(true))
 
-
-
     try {
       let response = await fetch(API_ENDPOINT, {
         method: 'POST',
@@ -67,7 +65,6 @@ const RatingForm = () => {
         dispatch(setSuccess(true))
       }
       if (data.errors) {
-        // setQuote({})
         console.log(data.errors)
         dispatch(submitErrors(data.errors))
       }

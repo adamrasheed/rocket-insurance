@@ -1,5 +1,5 @@
 import React from 'react';
-import SiteProvider from '../context/SiteContext';
+import SiteProvider from '../store/SiteContext';
 import Routes from './Routes';
 
 

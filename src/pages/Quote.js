@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { SiteContext } from '../context/SiteContext';
+import { SiteContext } from '../store/SiteContext';
 import Header from '../components/Header'
 import PolicySummary from '../components/PolicySummary/index';
 import PolicyUpdate from '../components/PolicyUpdate';

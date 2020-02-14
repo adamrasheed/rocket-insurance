@@ -5,14 +5,13 @@ import {
   Redirect,
   Route,
 } from 'react-router-dom'
-
 import Rating from '../pages/Rating'
 import Quote from '../pages/Quote'
+import { SiteContext } from '../store/SiteContext';
+import { PATHS } from '../constants';
 
 import '../main.css';
 
-import { SiteContext } from '../context/SiteContext';
-import { PATHS } from '../constants';
 
 function Routes() {
   const {

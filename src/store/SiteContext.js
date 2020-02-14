@@ -5,7 +5,7 @@ import React, {
   useReducer,
 } from 'react';
 import { saveState, loadState } from '../helpers';
-import { siteReducer } from '../reducer';
+import { siteReducer } from './reducer';
 import {
   INITIAL_FORM_ERRORS,
   INITIAL_FORM_VALUES
