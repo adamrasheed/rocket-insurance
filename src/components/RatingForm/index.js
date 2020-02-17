@@ -1,23 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import cn from 'classnames'
 import {
   STATES,
   NAME,
   ADDRESS,
-  API_ENDPOINT,
   INITIAL_FORM_VALUES,
   PATHS
 } from '../../constants/constants'
-import { SiteContext } from '../../store/SiteContext';
+
 import {
   updateForm,
-  setSuccess,
-  isSubmitting as submitting,
-  updateQuote,
-  submitErrors,
   clearSingleError,
-  clearAllErrors
+  submitForm
 } from '../../store/actions';
 import InputGroup from '../InputGroup';
 
@@ -25,54 +21,18 @@ import spinner from '../../assets/spinner.svg'
 
 import * as style from './style.module.css'
 
-export const handleFormSubmit = async (e, dispatch, form) => {
-  e.preventDefault()
-  dispatch(submitting(true))
-
-  try {
-    let response = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form)
-    })
-    const data = await response.json()
-    if (data.quote) {
-      dispatch(updateQuote(data.quote))
-      dispatch(clearAllErrors())
-      dispatch(setSuccess(true))
-    }
-    if (data.errors) {
-      console.log(data.errors)
-      dispatch(submitErrors(data.errors))
-    }
-    dispatch(submitting(false))
-
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 const RatingForm = () => {
+  const form = useSelector(state => state.form)
+  const quote = useSelector(state => state.quote)
+  const errors = useSelector(state => state.errors)
+  const success = useSelector(state => state.success)
+  const isSubmitting = useSelector(state => state.isSubmitting)
+  const dispatch = useDispatch()
 
-  const {
-    state,
-    dispatch
-  } = useContext(SiteContext)
-
-  const {
-    form,
-    isSubmitting,
-    errors,
-    quote,
-    success,
-  } = state
 
   // populate default state/region
   useEffect(() => {
-    if (state.form.address.region === '') {
+    if (form.address.region === '') {
 
       const form = {
         ...INITIAL_FORM_VALUES,
@@ -97,9 +57,10 @@ const RatingForm = () => {
       id={ADDRESS.REGION}
       data-testid={ADDRESS.REGION}
       onChange={e =>
-        dispatch(updateForm(
-          e.target.value,
-          ADDRESS.REGION
+        dispatch(updateForm({
+          value: e.target.value,
+          key: ADDRESS.REGION
+        }
         ))
       }>
       {STATES.map(state => (
@@ -133,21 +94,21 @@ const RatingForm = () => {
       className: 'full',
       error: false,
       required: true,
-      value: form ?.address.line_1,
+      value: form ?.address ?.line_1,
     },
     {
       label: 'Street 2',
       name: ADDRESS.LINE_2,
       className: 'full',
       error: false,
-      value: form ?.address.line_2,
+      value: form ?.address ?.line_2,
     },
     {
       label: 'City',
       name: ADDRESS.CITY,
       error: false,
       required: true,
-      value: form ?.address.city,
+      value: form ?.address ?.city,
     },
     {
       label: 'State',
@@ -155,7 +116,7 @@ const RatingForm = () => {
       error: false,
       required: true,
       children: renderRegionOptions(),
-      value: form ?.address.region,
+      value: form ?.address ?.region,
     },
     {
       label: 'ZIP',
@@ -163,7 +124,7 @@ const RatingForm = () => {
       pattern: '[0-9]{5}',
       error: false,
       required: true,
-      value: form ?.address.postal,
+      value: form ?.address ?.postal,
     },
   ]
 
@@ -179,17 +140,19 @@ const RatingForm = () => {
     }) => {
 
       function getValue() {
-        if (form[name] !== undefined) {
+        if (form[name]) {
           return form[name]
-        } else if (form.address[name] !== undefined) {
+        }
+        if (form.address[name]) {
           return form.address[name]
         }
       }
 
       function getError() {
-        if (errors[name] !== undefined) {
+        if (errors[name]) {
           return errors[name]
-        } else if (errors.address[name] !== undefined) {
+        }
+        if (errors.address[name]) {
           return errors.address[name]
         }
       }
@@ -206,7 +169,10 @@ const RatingForm = () => {
           data-testid={name}
           onChange={e => {
             dispatch(clearSingleError(name))
-            dispatch(updateForm(e.target.value, name))
+            dispatch(updateForm({
+              value: e.target.value,
+              key: name
+            }))
           }}
           value={getValue()}
         >
@@ -217,6 +183,10 @@ const RatingForm = () => {
   }
 
   const showQuote = quote && success
+
+  useEffect(() => {
+    console.log('submitting', isSubmitting)
+  }, [isSubmitting])
 
   return showQuote ? (
     <Redirect to={PATHS.QUOTE} />
@@ -233,7 +203,7 @@ const RatingForm = () => {
         <div className="container quote-container">
           <form
             className={cn(style.form, 'two')}
-            onSubmit={(e) => handleFormSubmit(e, dispatch, form)}
+            onSubmit={(e) => submitForm(e, form)(dispatch)}
             data-testid="rating-form"
           >
             <h2 className={cn(style.form_title, 'full')}>Get a Quote</h2 >

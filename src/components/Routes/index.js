@@ -5,8 +5,8 @@ import {
   Route,
 } from 'react-router-dom'
 import { PATHS } from '../../constants/constants';
-import Rating from '../../pages/Rating'
-import Quote from '../../pages/Quote'
+import Rating from '../../pages/RatingPage'
+import Quote from '../../pages/QuotePage'
 import NotFound from '../../pages/NotFound';
 
 function Routes() {

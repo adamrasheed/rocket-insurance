@@ -1,0 +1,7 @@
+export const FORM_UPDATE = 'FORM_UPDATE'
+export const ERRORS_SUBMIT = 'ERRORS_SUBMIT'
+export const ERRORS_UPDATE = 'ERRORS_UPDATE'
+export const ERRORS_CLEAR = 'ERRORS_CLEAR'
+export const QUOTE_UPDATE = 'QUOTE_UPDATE'
+export const IS_SUBMITTING = 'IS_SUBMITTING'
+export const SUCCESS = 'SUCCESS'

@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { SiteContext } from '../store/SiteContext';
 import Header from '../components/Header'
 import PolicySummary from '../components/PolicySummary/index';
 import PolicyUpdate from '../components/PolicyUpdate';
 import { PATHS } from '../constants/constants';
 
 const QuotePage = () => {
-  const { state: { quote } } = useContext(SiteContext)
+  const quote = useSelector(state => state.quote)
+
   function renderGreeting() {
     return quote ?.policy_holder && (
       <h2 className="center title">

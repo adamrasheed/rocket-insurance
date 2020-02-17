@@ -20,9 +20,10 @@ const renderComponent = () => render(
 
 test('shows loader when form is submitted with correct data', () => {
 
-  const { getByTestId } = renderComponent()
+  const { getByTestId, getByText } = renderComponent()
 
   const Form = getByTestId('rating-form')
+  const button = getByText('Get My Quote')
 
   fireEvent.change(getByTestId('first_name'), { target: { value: 'Adam' } })
   fireEvent.change(getByTestId('last_name'), { target: { value: 'Rasheed' } })
@@ -30,7 +31,7 @@ test('shows loader when form is submitted with correct data', () => {
   fireEvent.change(getByTestId('city'), { target: { value: 'Irvine' } })
   fireEvent.select(getByTestId('region'), { target: { value: 'CA' } })
   fireEvent.change(getByTestId('postal'), { target: { value: '92618' } })
-  fireEvent.submit(Form)
+  fireEvent.click(button)
   expect(getByTestId('spinner')).toBeInTheDocument()
   cleanup()
 })
