@@ -9,7 +9,7 @@ import { siteReducer } from './reducer';
 import {
   INITIAL_FORM_ERRORS,
   INITIAL_FORM_VALUES
-} from '../constants';
+} from '../constants/constants';
 
 export const initialStore = {
   form: INITIAL_FORM_VALUES,

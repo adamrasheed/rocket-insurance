@@ -6,7 +6,7 @@ import {
   ADDRESS,
   API_ENDPOINT,
   INITIAL_FORM_VALUES
-} from '../../constants'
+} from '../../constants/constants'
 import { SiteContext } from '../../store/SiteContext';
 import {
   updateForm,
@@ -22,6 +22,36 @@ import InputGroup from '../InputGroup';
 import spinner from '../../assets/spinner.svg'
 
 import * as style from './style.module.css'
+
+export const handleFormSubmit = async (e, dispatch, form) => {
+  e.preventDefault()
+  dispatch(submitting(true))
+
+  try {
+    let response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form)
+    })
+    const data = await response.json()
+    if (data.quote) {
+      dispatch(updateQuote(data.quote))
+      dispatch(clearAllErrors())
+      dispatch(setSuccess(true))
+    }
+    if (data.errors) {
+      console.log(data.errors)
+      dispatch(submitErrors(data.errors))
+    }
+    dispatch(submitting(false))
+
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const RatingForm = () => {
 
@@ -45,36 +75,6 @@ const RatingForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    dispatch(submitting(true))
-
-    try {
-      let response = await fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(form)
-      })
-      const data = await response.json()
-      if (data.quote) {
-        dispatch(updateQuote(data.quote))
-        dispatch(clearAllErrors())
-        dispatch(setSuccess(true))
-      }
-      if (data.errors) {
-        console.log(data.errors)
-        dispatch(submitErrors(data.errors))
-      }
-      dispatch(submitting(false))
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const buttonClass = cn(
     'button',
     'primary',
@@ -87,6 +87,7 @@ const RatingForm = () => {
       className="select"
       name={ADDRESS.REGION}
       id={ADDRESS.REGION}
+      data-testid={ADDRESS.REGION}
       onChange={e =>
         dispatch(updateForm(
           e.target.value,
@@ -115,6 +116,7 @@ const RatingForm = () => {
       label: 'Last Name',
       name: NAME.LAST,
       error: false,
+      required: true,
       value: form ?.last_name,
     },
     {
@@ -122,6 +124,7 @@ const RatingForm = () => {
       name: ADDRESS.LINE_1,
       className: 'full',
       error: false,
+      required: true,
       value: form ?.address.line_1,
     },
     {
@@ -135,12 +138,14 @@ const RatingForm = () => {
       label: 'City',
       name: ADDRESS.CITY,
       error: false,
+      required: true,
       value: form ?.address.city,
     },
     {
       label: 'State',
       name: ADDRESS.REGION,
       error: false,
+      required: true,
       children: renderRegionOptions(),
       value: form ?.address.region,
     },
@@ -149,6 +154,7 @@ const RatingForm = () => {
       name: ADDRESS.POSTAL,
       pattern: '[0-9]{5}',
       error: false,
+      required: true,
       value: form ?.address.postal,
     },
   ]
@@ -189,6 +195,7 @@ const RatingForm = () => {
           className={className}
           label={label}
           error={getError()}
+          data-testid={name}
           onChange={e => {
             dispatch(clearSingleError(name))
             dispatch(updateForm(e.target.value, name))
@@ -202,7 +209,7 @@ const RatingForm = () => {
   }
 
   return isSubmitting ? (
-    <div className={style.spinner_wrapper}>
+    <div className={style.spinner_wrapper} data-testid="spinner">
       <img
         src={spinner}
         alt="Loading"
@@ -211,7 +218,11 @@ const RatingForm = () => {
     </div>
   ) : (
       <div className="container quote-container">
-        <form className={cn(style.form, 'two')} onSubmit={handleSubmit}>
+        <form
+          className={cn(style.form, 'two')}
+          onSubmit={(e) => handleFormSubmit(e, dispatch, form)}
+          data-testid="rating-form"
+        >
           <h2 className={cn(style.form_title, 'full')}>Get a Quote</h2 >
           {renderInputs()}
           <button

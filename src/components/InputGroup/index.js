@@ -26,15 +26,16 @@ const InputGroup = ({
       {label && (
         <label
           className={cn(style.label, error && style.error)}
-          htmlFor={id}>
-          {label}{required && `*`}
+          htmlFor={id || name}>
+          {label}
+          {required && <span>*</span>}
         </label>
       )}
       {children ? children : (
         <input
           type={type}
           className={cn(style.input, error && style.error)}
-          id={id}
+          id={id || name}
           name={name}
           required={required}
           onChange={onChange}

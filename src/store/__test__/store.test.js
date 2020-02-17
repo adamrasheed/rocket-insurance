@@ -4,10 +4,10 @@ import {
   fireEvent,
   cleanup
 } from '@testing-library/react'
-import { initialStore } from './SiteContext'
-import { siteReducer } from './reducer'
-import * as ACTIONS from './actions'
-import { ADDRESS, NAME } from '../constants'
+import { initialStore } from '../SiteContext'
+import { siteReducer } from '../reducer'
+import * as ACTIONS from '../actions'
+import { ADDRESS, NAME } from '../../constants/constants'
 
 afterEach(cleanup)
 

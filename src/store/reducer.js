@@ -1,4 +1,4 @@
-import { INITIAL_FORM_ERRORS } from "../constants"
+import { INITIAL_FORM_ERRORS } from "../constants/constants"
 
 export const FORM_UPDATE = 'FORM_UPDATE'
 export const ERRORS_SUBMIT = 'ERRORS_SUBMIT'

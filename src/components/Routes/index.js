@@ -5,12 +5,13 @@ import {
   Redirect,
   Route,
 } from 'react-router-dom'
-import Rating from '../pages/Rating'
-import Quote from '../pages/Quote'
-import { SiteContext } from '../store/SiteContext';
-import { PATHS } from '../constants';
+import Rating from '../../pages/Rating'
+import Quote from '../../pages/Quote'
+import NotFound from '../../pages/NotFound';
+import { SiteContext } from '../../store/SiteContext';
+import { PATHS } from '../../constants/constants';
 
-import '../main.css';
+import '../../main.css';
 
 
 function Routes() {
@@ -36,6 +37,7 @@ function Routes() {
             : <Redirect to={PATHS.LANDING} />
           }
         </Route>
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );
