@@ -34,21 +34,3 @@ test('shows loader when form is submitted with correct data', () => {
   expect(getByTestId('spinner')).toBeInTheDocument()
   cleanup()
 })
-
-// test('doesn\'t show loader when required fields aren\'t completed', () => {
-//   const { getByTestId } = renderComponent()
-
-//   const Form = getByTestId('rating-form')
-
-//   fireEvent.change(getByTestId('first_name'), { target: { value: '' } })
-//   fireEvent.change(getByTestId('last_name'), { target: { value: '' } })
-//   fireEvent.change(getByTestId('line_1'), { target: { value: '' } })
-//   fireEvent.change(getByTestId('city'), { target: { value: '' } })
-//   fireEvent.select(getByTestId('region'), { target: { value: 'AK' } })
-//   fireEvent.change(getByTestId('postal'), { target: { value: '' } })
-
-//   // fireEvent.submit(Form)
-//   console.log(getByTestId('first_name'))
-
-//   expect(getByTestId('spinner')).not.toBeInTheDocument()
-// })
