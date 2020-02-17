@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react';
+import { Redirect } from 'react-router-dom'
 import cn from 'classnames'
 import {
   STATES,
   NAME,
   ADDRESS,
   API_ENDPOINT,
-  INITIAL_FORM_VALUES
+  INITIAL_FORM_VALUES,
+  PATHS
 } from '../../constants/constants'
 import { SiteContext } from '../../store/SiteContext';
 import {
@@ -60,7 +62,13 @@ const RatingForm = () => {
     dispatch
   } = useContext(SiteContext)
 
-  const { form, isSubmitting, errors } = state
+  const {
+    form,
+    isSubmitting,
+    errors,
+    quote,
+    success,
+  } = state
 
   // populate default state/region
   useEffect(() => {
@@ -208,28 +216,34 @@ const RatingForm = () => {
     })
   }
 
-  return isSubmitting ? (
-    <div className={style.spinner_wrapper} data-testid="spinner">
-      <img
-        src={spinner}
-        alt="Loading"
-        className={style.spinner}
-      />
-    </div>
-  ) : (
-      <div className="container quote-container">
-        <form
-          className={cn(style.form, 'two')}
-          onSubmit={(e) => handleFormSubmit(e, dispatch, form)}
-          data-testid="rating-form"
-        >
-          <h2 className={cn(style.form_title, 'full')}>Get a Quote</h2 >
-          {renderInputs()}
-          <button
-            className={buttonClass}
-            type="submit">Get My Quote</button>
-        </form >
-      </div >
+  const showQuote = quote && success
+
+  return showQuote ? (
+    <Redirect to={PATHS.QUOTE} />
+  ) :
+    (isSubmitting ? (
+      <div className={style.spinner_wrapper} data-testid="spinner">
+        <img
+          src={spinner}
+          alt="Loading"
+          className={style.spinner}
+        />
+      </div>
+    ) : (
+        <div className="container quote-container">
+          <form
+            className={cn(style.form, 'two')}
+            onSubmit={(e) => handleFormSubmit(e, dispatch, form)}
+            data-testid="rating-form"
+          >
+            <h2 className={cn(style.form_title, 'full')}>Get a Quote</h2 >
+            {renderInputs()}
+            <button
+              className={buttonClass}
+              type="submit">Get My Quote</button>
+          </form >
+        </div >
+      )
     );
 }
 

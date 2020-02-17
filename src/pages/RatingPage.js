@@ -3,13 +3,13 @@ import Header from '../components/Header';
 import RatingForm from '../components/RatingForm/index';
 
 
-const Rating = () => {
+const RatingPage = () => {
   return (
-    <div>
+    <>
       <Header extended />
       <RatingForm />
-    </div>
+    </>
   );
 }
 
-export default Rating;
+export default RatingPage;

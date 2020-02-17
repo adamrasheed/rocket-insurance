@@ -1,61 +1,54 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, fireEvent, cleanup, act } from '@testing-library/react'
-import RatingForm, { handleFormSubmit } from './index'
-import { mockStoreFormFilled } from '../../constants/mock'
+import {
+  render,
+  fireEvent,
+  cleanup
+} from '@testing-library/react'
+import RatingForm from './index'
 import SiteProvider from '../../store/SiteContext'
-import { updateQuote } from '../../store/actions'
-
-// jest.mock('../../store/actions')
 
 // TODO: Add Tests
+
 afterEach(cleanup)
 
-// Submitting Form with Correct information should send a POST request
-test('submits POST request when form is submitted', async () => {
-  const returnedData = {}
-  const fetchRequest = jest.fn(() => {
-    return {
-      json: () => Promise.resolve(returnedData)
-    }
-  })
-  jest.spyOn(global, "fetch").mockImplementation(fetchRequest);
+const renderComponent = () => render(
+  <SiteProvider>
+    <RatingForm />
+  </SiteProvider>
+)
 
-  let container = {}
+test('shows loader when form is submitted with correct data', () => {
 
+  const { getByTestId } = renderComponent()
 
-  act(() => {
-    const { getByLabelText, getByTestId } = render(
-      <SiteProvider>
-        <RatingForm state={mockStoreFormFilled} />
-      </SiteProvider>
-    )
-    container.getByLabelText = getByLabelText
-    container.getByTestId = getByTestId
-  })
+  const Form = getByTestId('rating-form')
 
-  const Form = container.getByTestId('rating-form')
-
-  // fill out the form
-  fireEvent.change(container.getByTestId('first_name'), { target: { value: 'Adam' } })
-  // fireEvent.change(container.getByTestId('last_name'), { target: { value: 'Rasheed' } })
-  // fireEvent.change(container.getByTestId('line_1'), { target: { value: '17107 Telmo' } })
-  // fireEvent.change(container.getByTestId('city'), { target: { value: 'Irvine' } })
-  // fireEvent.select(container.getByTestId('region'), { target: { value: 'CA' } })
-  // fireEvent.change(container.getByTestId('postal'), { target: { value: '92618' } })
-
-  act(() => {
-    fireEvent.submit(Form)
-  })
-  // expect(container.getByTestId('spinner')).toBeInTheDocument()
-
-  expect(fetchRequest).toHaveBeenCalledTimes(1)
-
-  // expect(updateQuote).toHaveBeenCalled()
-
-  // expect updstequote to get called with returnedData ==> 
-
-
+  fireEvent.change(getByTestId('first_name'), { target: { value: 'Adam' } })
+  fireEvent.change(getByTestId('last_name'), { target: { value: 'Rasheed' } })
+  fireEvent.change(getByTestId('line_1'), { target: { value: '17107 Telmo' } })
+  fireEvent.change(getByTestId('city'), { target: { value: 'Irvine' } })
+  fireEvent.select(getByTestId('region'), { target: { value: 'CA' } })
+  fireEvent.change(getByTestId('postal'), { target: { value: '92618' } })
+  fireEvent.submit(Form)
+  expect(getByTestId('spinner')).toBeInTheDocument()
+  cleanup()
 })
 
-// Successful Post request should return new
+// test('doesn\'t show loader when required fields aren\'t completed', () => {
+//   const { getByTestId } = renderComponent()
+
+//   const Form = getByTestId('rating-form')
+
+//   fireEvent.change(getByTestId('first_name'), { target: { value: '' } })
+//   fireEvent.change(getByTestId('last_name'), { target: { value: '' } })
+//   fireEvent.change(getByTestId('line_1'), { target: { value: '' } })
+//   fireEvent.change(getByTestId('city'), { target: { value: '' } })
+//   fireEvent.select(getByTestId('region'), { target: { value: 'AK' } })
+//   fireEvent.change(getByTestId('postal'), { target: { value: '' } })
+
+//   // fireEvent.submit(Form)
+//   console.log(getByTestId('first_name'))
+
+//   expect(getByTestId('spinner')).not.toBeInTheDocument()
+// })

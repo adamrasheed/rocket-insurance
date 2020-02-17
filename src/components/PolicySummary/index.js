@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { moneyFormatter } from '../../helpers'
+import { moneyFormatter, formatAddress } from '../../helpers'
 import InfoItem from '../InfoItem/index'
 import Card from '../Card'
 
@@ -9,13 +9,16 @@ import * as style from './style.module.css'
 
 const PolicySummary = ({
   name,
-  address,
+  address: {
+    line_1,
+    line_2,
+    city,
+    region,
+    postal,
+  },
   premium,
   policy
 }) => {
-  const formattedAddress =
-    `${address ?.line_1} ${address ?.city} ${address ?.region.toUpperCase()}, ${address ?.postal}`
-
   return (
     <Card transparent>
       <div className="three">
@@ -24,7 +27,13 @@ const PolicySummary = ({
           info={`${name ?.first_name} ${name ?.last_name} `} />
         <InfoItem
           title="Address"
-          info={formattedAddress}
+          info={formatAddress(
+            line_1,
+            line_2,
+            city,
+            region,
+            postal,
+          )}
           className={style.address} />
         <InfoItem
           title="Premium"
