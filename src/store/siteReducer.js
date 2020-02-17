@@ -24,8 +24,6 @@ export const siteReducer = (state = initialStore, action) => {
   switch (action.type) {
     case FORM_UPDATE:
       let newForm = { ...state.form }
-      console.log(newForm)
-      console.log(action.payload)
 
       if (state.form[action.payload.key] !== undefined) {
         newForm[action.payload.key] = action.payload.value

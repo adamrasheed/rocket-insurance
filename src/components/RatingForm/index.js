@@ -184,10 +184,6 @@ const RatingForm = () => {
 
   const showQuote = quote && success
 
-  useEffect(() => {
-    console.log('submitting', isSubmitting)
-  }, [isSubmitting])
-
   return showQuote ? (
     <Redirect to={PATHS.QUOTE} />
   ) :

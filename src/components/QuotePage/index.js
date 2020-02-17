@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import Header from '../components/Header'
-import PolicySummary from '../components/PolicySummary/index';
-import PolicyUpdate from '../components/PolicyUpdate';
-import { PATHS } from '../constants/constants';
+import Header from '../Header'
+import PolicySummary from '../PolicySummary/index';
+import PolicyUpdate from '../PolicyUpdate';
+import { PATHS } from '../../constants/constants';
 
 const QuotePage = () => {
   const quote = useSelector(state => state.quote)
@@ -33,7 +33,9 @@ const QuotePage = () => {
         />
       </div>
     </>
-  ) : (<Redirect to={PATHS.LANDING} />);
+  ) : (
+      <Redirect to={PATHS.LANDING} />
+    );
 }
 
 export default QuotePage;

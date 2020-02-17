@@ -1,4 +1,4 @@
-import { initialStore } from "../store/SiteContext";
+import { initialStore } from "../store/siteReducer";
 
 export const mockStoreFormFilled = {
   ...initialStore,

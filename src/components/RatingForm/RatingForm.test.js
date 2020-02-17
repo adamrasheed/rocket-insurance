@@ -1,29 +1,32 @@
 import React from 'react'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { siteReducer, initialStore } from '../../store/siteReducer'
+import RatingForm from './index'
 import '@testing-library/jest-dom'
 import {
   render,
   fireEvent,
   cleanup
 } from '@testing-library/react'
-import RatingForm from './index'
-import SiteProvider from '../../store/SiteContext'
-
-// TODO: Add Tests
 
 afterEach(cleanup)
 
-const renderComponent = () => render(
-  <SiteProvider>
-    <RatingForm />
-  </SiteProvider>
-)
+const buttonText = 'Get My Quote'
 
 test('shows loader when form is submitted with correct data', () => {
 
-  const { getByTestId, getByText } = renderComponent()
+  const { getByTestId, getByText } = render(
+    <Provider store={createStore(siteReducer, initialStore)}>
+      <Router history={createMemoryHistory()}>
+        <RatingForm />
+      </Router>
+    </Provider>
+  )
 
-  const Form = getByTestId('rating-form')
-  const button = getByText('Get My Quote')
+  const button = getByText(buttonText)
 
   fireEvent.change(getByTestId('first_name'), { target: { value: 'Adam' } })
   fireEvent.change(getByTestId('last_name'), { target: { value: 'Rasheed' } })
@@ -33,5 +36,4 @@ test('shows loader when form is submitted with correct data', () => {
   fireEvent.change(getByTestId('postal'), { target: { value: '92618' } })
   fireEvent.click(button)
   expect(getByTestId('spinner')).toBeInTheDocument()
-  cleanup()
 })

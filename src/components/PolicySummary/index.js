@@ -24,7 +24,7 @@ const PolicySummary = ({
       <div className="three">
         <InfoItem
           title="Name"
-          info={`${name ?.first_name} ${name ?.last_name} `} />
+          info={`${name ?.first_name} ${name ?.last_name}`} />
         <InfoItem
           title="Address"
           info={formatAddress(

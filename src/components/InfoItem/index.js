@@ -7,7 +7,7 @@ const InfoItem = ({ title, info, className, children }) => {
   return (
     <div className={className}>
       <p className={style.title}>{title}</p>
-      <p className={style.info}>
+      <p data-testid={title} className={style.info}>
         {info || children}
       </p>
     </div>
@@ -15,6 +15,7 @@ const InfoItem = ({ title, info, className, children }) => {
 }
 
 InfoItem.propTypes = {
+  id: PropTypes.string,
   title: PropTypes.string.isRequired,
   info: PropTypes.node,
   children: PropTypes.node

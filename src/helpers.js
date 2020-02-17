@@ -43,5 +43,5 @@ export const formatAddress = (
   city,
   region,
   postal
-) => `${line_1}${line_2 ? line_2 : ` `}${city} ${region ?.toUpperCase()}, ${postal}`
+) => `${line_1}${line_2 ? ` ${line_2}` : ``}, ${city} ${region ?.toUpperCase()}, ${postal}`
 
