@@ -3,23 +3,38 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import '@testing-library/jest-dom'
 import App from '../App'
-import { render, cleanup, wait } from '@testing-library/react'
 
-// Expect redirect if success state is true
+import { render } from '@testing-library/react'
 
-afterEach(cleanup)
+function renderWithRouter(
+  ui,
+  { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {},
+) {
+  return {
+    ...render(<Router history={history}>{ui}</Router>),
+    // adding `history` to the returned utilities to allow us
+    // to reference it in our tests (just try to avoid using
+    // this to test implementation details).
+    history,
+  }
+}
 
-test('Routing', () => {
+
+// Verify correct home page
+test('Verify correct home page', () => {
   const history = createMemoryHistory()
-  const { container, getByText } = render(
+  const { container } = render(
     <Router history={history}>
       <App />
     </Router>
   )
-
-  // Verify correct home page
   expect(container.innerHTML).toMatch('Get a Quote')
-
 })
 
-// Expect redirect to landing is state != true and quote != true
+test('landing on a bad page', () => {
+  const { container } = renderWithRouter(<App />, {
+    route: '/bad-route',
+  })
+  // normally I'd use a data-testid, but just wanted to show this is also possible
+  expect(container.innerHTML).toMatch('404')
+})

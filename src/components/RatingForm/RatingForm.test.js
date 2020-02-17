@@ -17,18 +17,22 @@ test('submits POST request when form is submitted', async () => {
     </SiteProvider>
   )
   const Form = getByTestId('rating-form')
-  const mockFormSubmit = jest.fn()
+  const onSubmit = jest.fn()
   // fill out the form
-  fireEvent.change(getByTestId('first_name'), { target: { value: 'Adam' } })
-  fireEvent.change(getByTestId('last_name'), { target: { value: 'Rasheed' } })
-  fireEvent.change(getByTestId('line_1'), { target: { value: '17107 Telmo' } })
-  fireEvent.change(getByTestId('city'), { target: { value: 'Irvine' } })
-  fireEvent.select(getByTestId('region'), { target: { value: 'CA' } })
-  fireEvent.change(getByTestId('postal'), { target: { value: '92618' } })
+  // fireEvent.change(getByTestId('first_name'), { target: { value: 'Adam' } })
+  // fireEvent.change(getByTestId('last_name'), { target: { value: 'Rasheed' } })
+  // fireEvent.change(getByTestId('line_1'), { target: { value: '17107 Telmo' } })
+  // fireEvent.change(getByTestId('city'), { target: { value: 'Irvine' } })
+  // fireEvent.select(getByTestId('region'), { target: { value: 'CA' } })
+  // fireEvent.change(getByTestId('postal'), { target: { value: '92618' } })
 
-  fireEvent.submit(Form)
+
+  wait(
+    fireEvent.submit(Form)
+  )
+  expect(onSubmit).toHaveBeenCalledTimes(1)
   expect(getByTestId('spinner')).toBeInTheDocument()
-  expect(mockFormSubmit).toHaveBeenCalledTimes(1)
+
 
 })
 
