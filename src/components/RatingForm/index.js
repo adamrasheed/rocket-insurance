@@ -78,7 +78,10 @@ const RatingForm = () => {
         ...INITIAL_FORM_VALUES,
       }
       form.address.region = STATES[0]
-      dispatch(updateForm(STATES[0], ADDRESS.REGION))
+      dispatch(updateForm({
+        value: STATES[0],
+        key: ADDRESS.REGION
+      }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -97,10 +100,10 @@ const RatingForm = () => {
       id={ADDRESS.REGION}
       data-testid={ADDRESS.REGION}
       onChange={e =>
-        dispatch(updateForm(
-          e.target.value,
-          ADDRESS.REGION
-        ))
+        dispatch(updateForm({
+          value: e.target.value,
+          key: ADDRESS.REGION
+        }))
       }>
       {STATES.map(state => (
         <option
@@ -206,7 +209,10 @@ const RatingForm = () => {
           data-testid={name}
           onChange={e => {
             dispatch(clearSingleError(name))
-            dispatch(updateForm(e.target.value, name))
+            dispatch(updateForm({
+              value: e.target.value,
+              key: name
+            }))
           }}
           value={getValue()}
         >

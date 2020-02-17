@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom'
-import { SiteContext } from '../store/SiteContext';
-import Header from '../components/Header'
-import PolicySummary from '../components/PolicySummary/index';
-import PolicyUpdate from '../components/PolicyUpdate';
-import { PATHS } from '../constants/constants';
+import { SiteContext } from '../../store/SiteContext';
+import Header from '../Header'
+import PolicySummary from '../PolicySummary/index';
+import PolicyUpdate from '../PolicyUpdate';
+import { PATHS } from '../../constants/constants';
 
 const QuotePage = () => {
   const { state: { quote } } = useContext(SiteContext)

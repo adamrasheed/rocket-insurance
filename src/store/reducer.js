@@ -11,24 +11,24 @@ export const SUCCESS = 'SUCCESS'
 export const siteReducer = (state, action) => {
   switch (action.type) {
     case FORM_UPDATE:
-      let newForm = { ...state.form }
+      let updatedForm = { ...state.form }
 
-      if (state.form[action.key] !== undefined) {
-        newForm[action.key] = action.value
+      if (state.form[action.payload.key] !== undefined) {
+        updatedForm[action.payload.key] = action.payload.value
       }
-      if (state.form.address[action.key] !== undefined) {
-        newForm.address[action.key] = action.value
+      if (state.form.address[action.payload.key] !== undefined) {
+        updatedForm.address[action.payload.key] = action.payload.value
       }
 
       return {
         ...state,
-        form: newForm,
+        form: updatedForm,
       }
 
     case IS_SUBMITTING:
       return {
         ...state,
-        isSubmitting: action.isSubmitting
+        isSubmitting: action.payload
       }
 
     case ERRORS_SUBMIT:
@@ -49,11 +49,11 @@ export const siteReducer = (state, action) => {
     case ERRORS_UPDATE:
       let updatedErrors = { ...state.errors }
 
-      if (state.errors[action.key]) {
-        updatedErrors[action.key] = false
+      if (state.errors[action.payload]) {
+        updatedErrors[action.payload] = false
       }
-      if (state.errors.address[action.key]) {
-        updatedErrors.address[action.key] = false
+      if (state.errors.address[action.payload]) {
+        updatedErrors.address[action.payload] = false
       }
 
       return {
@@ -70,13 +70,13 @@ export const siteReducer = (state, action) => {
     case QUOTE_UPDATE:
       return {
         ...state,
-        quote: action.quote
+        quote: action.payload
       }
 
     case SUCCESS:
       return {
         ...state,
-        success: action.success
+        success: action.payload
       }
 
     default:

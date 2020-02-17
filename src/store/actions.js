@@ -8,23 +8,23 @@ import {
   ERRORS_CLEAR,
 } from "./reducer";
 
-export const updateForm = (value, key) =>
-  ({ type: FORM_UPDATE, value, key })
+export const updateForm = (payload) =>
+  ({ type: FORM_UPDATE, payload })
 
-export const updateQuote = (quote) =>
-  ({ type: QUOTE_UPDATE, quote })
+export const updateQuote = (payload) =>
+  ({ type: QUOTE_UPDATE, payload })
 
 export const submitErrors = (errors) =>
   ({ type: ERRORS_SUBMIT, errors })
 
-export const clearSingleError = (key) =>
-  ({ type: ERRORS_UPDATE, key })
+export const clearSingleError = (payload) =>
+  ({ type: ERRORS_UPDATE, payload })
 
 export const clearAllErrors = () =>
   ({ type: ERRORS_CLEAR })
 
-export const isSubmitting = (isSubmitting) =>
-  ({ type: IS_SUBMITTING, isSubmitting })
+export const isSubmitting = (payload) =>
+  ({ type: IS_SUBMITTING, payload })
 
-export const setSuccess = success =>
-  ({ type: SUCCESS, success })
+export const setSuccess = payload =>
+  ({ type: SUCCESS, payload })
